@@ -1,10 +1,5 @@
 <?php
 /**
- * @file
- * Archivo para empezar a programar con Drupal
- */
-
-/**
  * Implementa hook_menu().
  */
 function sw_menu() {
@@ -17,51 +12,93 @@ function sw_menu() {
 }
 
 /**
- * Callback que implementa la páina: saludar/hola-mundo.
+ * Callback que implementa la páina: sw/rest
  */
 function sw_rest() {
- 	
 
+ 	//Para obtener el nodo, o publicacioón
+  if(!empty($_POST["idNode"])){
+    getNode($_POST["idNode"]);
+  }
+  
+  if(!empty($_POST["comentario"]) && !empty($_POST["idNode"]) ) {
+    addComment($_POST["comentario"],$_POST["idNode"]);
+  }
 
-  $nid = 1;
-	$node = node_load($nid);                                 
-  print($node->uid);
-  echo '<br>';
+}
+
+function getNode($nid){
+  #Cargar, obtener el nodo,
+  $node = node_load($nid);                                 
+  #echo '<br>';
+  //fecha
   $fecha = getdate( $node->created );
-  echo ( $fecha["mday"]."-");
-  echo ( $fecha["mon"]. "-");
-  echo ( $fecha["year"]);
-  echo '<br>';
-  
-  print($node->title);
-  echo '<br>';
-
-  print($node->language);
-  echo '<br>';
-
+  $fecha = $fecha["mday"]."-".$fecha["mon"]."-".$fecha["year"];
+  #echo '<br>';
+  //titulo de la nota, articulo, lo que sea
+  #print($node->title);
+  $titulo = $node->title;
+  #echo '<br>';
+  //lenguaje
+  #print($node->language);
+  $lenguaje=$node->language;
+  #echo '<br>';
+  //Contenido del articulo
   $body = field_get_items('node',$node, 'body');
-  print $body[0]['value'];
-  echo '<br>';
-
+  #print $body[0]['value'];
+  $contenido = $body[0]['value'];
+  #echo '<br>';
+  //Nombre de la imagen
+  #$body = field_get_items('node',$node, 'field_image');
+  #print ($body[0]['filename']);
+  #echo '<br>';
+  //Ruta de la imagen
   $body = field_get_items('node',$node, 'field_image');
-  print ($body[0]['filename']);
-  echo '<br>';
-  
-  $body = field_get_items('node',$node, 'field_image');
-  print $body[0]['uri'];
-  echo '<br>';
-  
+  #print $body[0]['uri'];
+  $imagen = $body[0]['uri'];
+  #echo '<br>';
+  //comentarios
   $result = db_select('comment') ->fields('comment', array('cid')) ->condition('nid', $node->nid, '=') ->execute();
   $cids = $result->fetchCol();
   $comments=comment_load_multiple($cids);
+  $i=1;
+  $comentarios=array();
   foreach($comments as $comment){
-    //do some stuff with the comment
-    print $comment->comment_body ["und"][0] ["value"];
+    #print $comment->comment_body ["und"][0] ["value"];
+    $comentarios[''.$i] =$comment->comment_body ["und"][0] ["value"];
+    $i++;
   }
+  //Información completa del nodo, de manera algo complicada de accesar :S
   #print_r($node);
 
+  $arr = array(
+    array(
+        "fecha" => $fecha
+    ),
+    array(
+        "titulo" => $titulo
+    ),
+    array(
+        "lenguaje" => $lenguaje
+    ),
+    array(
+        "contenido" => $contenido
+    ),
+    array(
+        "imagen" => $imagen
+    ),
+    array(
+        "comentarios" => $comentarios
+    )
+);
+
+echo json_encode($arr);
+}
+
+
+function addComment($Comentario,$idNode){
   $comment = (object) array(
-    'nid' => 1,
+    'nid' => $idNode,
     #'cid' => 0,
     #'pid' => 0,
     #'uid' => 1,
@@ -74,7 +111,7 @@ function sw_rest() {
     'comment_body' => array(
       LANGUAGE_NONE => array(
         0 => array (
-          'value' => 'fracaso 3 :D',
+          'value' => $Comentario,
           'format' => 'filtered_html'
         )
       )
@@ -82,7 +119,6 @@ function sw_rest() {
   );
   comment_submit($comment);
   comment_save($comment);
-
-
 }
+
 ?>
