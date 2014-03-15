@@ -13,32 +13,17 @@ function sw_menu() {
     'page callback' => 'sw_rest',
     'access callback' => TRUE,
   );
-  $items['sw/index'] = array(
-    'title' => 'index',
-    'page callback' => 'sw_index',
-    'access callback' => TRUE,
-  );
   return $items;
 }
 
-function sw_index(){
-
-  echo $_POST['hola'];
-  $nid = 1;
-  $node = node_load($nid);                                 
-  print($node->title);
-  echo '<br>';
-
-  $nid = 2;
-  $node = node_load($nid);                                 
-  print($node->title);
-  echo '<br>';
-}
 /**
  * Callback que implementa la páina: saludar/hola-mundo.
  */
 function sw_rest() {
- 	$nid = 1;
+ 	
+
+
+  $nid = 1;
 	$node = node_load($nid);                                 
   print($node->uid);
   echo '<br>';
@@ -59,13 +44,45 @@ function sw_rest() {
   echo '<br>';
 
   $body = field_get_items('node',$node, 'field_image');
-  print $body[0]['filename'];
+  print ($body[0]['filename']);
   echo '<br>';
   
   $body = field_get_items('node',$node, 'field_image');
   print $body[0]['uri'];
   echo '<br>';
+  
+  $result = db_select('comment') ->fields('comment', array('cid')) ->condition('nid', $node->nid, '=') ->execute();
+  $cids = $result->fetchCol();
+  $comments=comment_load_multiple($cids);
+  foreach($comments as $comment){
+    //do some stuff with the comment
+    print $comment->comment_body ["und"][0] ["value"];
+  }
+  #print_r($node);
 
-  print_r($node);
+  $comment = (object) array(
+    'nid' => 1,
+    #'cid' => 0,
+    #'pid' => 0,
+    #'uid' => 1,
+    #'mail' => '',
+    'is_anonymous' => 1,
+    #'homepage' => '',
+    'status' => COMMENT_PUBLISHED,
+    #'subject' => 'dsk subject',
+    'language' => LANGUAGE_NONE,
+    'comment_body' => array(
+      LANGUAGE_NONE => array(
+        0 => array (
+          'value' => 'fracaso 3 :D',
+          'format' => 'filtered_html'
+        )
+      )
+    ),
+  );
+  comment_submit($comment);
+  comment_save($comment);
+
+
 }
 ?>
