@@ -1,5 +1,35 @@
 
 <?php
+
+function getAll(){
+
+  $articulos=array();
+  for($i=1; $i<10;$i++){
+
+    $node = node_load($i);                                 
+    #echo '<br>';
+    //fecha
+    $fecha = getdate( $node->created );
+    $fecha = $fecha["mday"]."-".$fecha["mon"]."-".$fecha["year"];
+    #echo '<br>';
+    //titulo de la nota, articulo, lo que sea
+    #print($node->title);
+    $titulo = $node->title;
+    #print $comment->comment_body ["und"][0] ["value"];
+    $arr = array('fecha' => $fecha,'titulo'=>$titulo );
+    $articulos[''.$i]=$arr; 
+    
+  }
+
+  $arr = 
+    array(
+        "articulos" => $articulos    
+  );
+
+  echo json_encode($arr);  
+
+}
+
 function getNode($nid){
   #Cargar, obtener el nodo,
   $node = node_load($nid);                                 
@@ -60,8 +90,7 @@ function getNode($nid){
         "lenguaje" => $lenguaje,
         "contenido" => $contenido,
         "imagen" => $imagen,
-        "comentarios" => $comentarios
-    
+        "comentarios" => $comentarios    
   );
 
   echo json_encode($arr);

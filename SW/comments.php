@@ -22,6 +22,13 @@
 	  );
 	  comment_submit($comment);
 	  comment_save($comment);
+
+
+	  $arr = 
+	    array(
+	        "mensaje" => "Comentario agregado");
+
+	  echo json_encode($arr);
 	}
 
 ?>
