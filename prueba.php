@@ -1,7 +1,7 @@
 <?php
 
 
-$url = 'http://localhost/drupal/sw/rest';
+$url = 'http://chelo.cloudapp.net/?q=sw/rest';
 //
 //Solo elegir uno de los  $data
 //
