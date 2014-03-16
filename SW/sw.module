@@ -16,109 +16,20 @@ function sw_menu() {
  */
 function sw_rest() {
 
- 	//Para obtener el nodo, o publicacioón
-  if(!empty($_POST["idNode"])){
+ 	
+
+  //Para obtener el nodo, o publicacioón
+  if(!empty($_POST["idNode"]) && empty($_POST["comentario"])){
+    require_once('node.php'); 
     getNode($_POST["idNode"]);
   }
   
   if(!empty($_POST["comentario"]) && !empty($_POST["idNode"]) ) {
+    require_once('comments.php'); 
     addComment($_POST["comentario"],$_POST["idNode"]);
   }
 
 }
 
-function getNode($nid){
-  #Cargar, obtener el nodo,
-  $node = node_load($nid);                                 
-  
-  //fecha
-  $fecha = getdate( $node->created );
-  $fecha = $fecha["mday"]."-".$fecha["mon"]."-".$fecha["year"];
-  
-  //titulo de la nota, articulo, lo que sea
-  #print($node->title);
-  $titulo = $node->title;
-  
-  //lenguaje
-  #print($node->language);
-  $lenguaje=$node->language;
-  
-  //Contenido del articulo
-  $body = field_get_items('node',$node, 'body');
-  #print $body[0]['value'];
-  $contenido = $body[0]['value'];
-  
-  //Nombre de la imagen
-  #$body = field_get_items('node',$node, 'field_image');
-  #print ($body[0]['filename']);
-  
-  //Uri de la imagen
-  $body = field_get_items('node',$node, 'field_image');
-  #print $body[0]['uri'];
-  $imagen = $body[0]['uri'];
-  
-  //comentarios
-  $result = db_select('comment') ->fields('comment', array('cid')) ->condition('nid', $node->nid, '=') ->execute();
-  $cids = $result->fetchCol();
-  $comments=comment_load_multiple($cids);
-  $i=1;
-  $comentarios=array();
-  foreach($comments as $comment){
-    #print $comment->comment_body ["und"][0] ["value"];
-    $comentarios[''.$i] =$comment->comment_body ["und"][0] ["value"];
-    $i++;
-  }
-  //Información completa del nodo
-  #print_r($node);
-
-  $arr = array(
-    array(
-        "fecha" => $fecha
-    ),
-    array(
-        "titulo" => $titulo
-    ),
-    array(
-        "lenguaje" => $lenguaje
-    ),
-    array(
-        "contenido" => $contenido
-    ),
-    array(
-        "imagen" => $imagen
-    ),
-    array(
-        "comentarios" => $comentarios
-    )
-);
-
-echo json_encode($arr);
-}
-
-
-function addComment($Comentario,$idNode){
-  $comment = (object) array(
-    'nid' => $idNode,
-    #'cid' => 0,
-    #'pid' => 0,
-    #'uid' => 1,
-    #'mail' => '',
-    'is_anonymous' => 1,
-    #'homepage' => '',
-    'status' => COMMENT_PUBLISHED,
-    #'subject' => 'dsk subject',
-    'language' => LANGUAGE_NONE,
-    'comment_body' => array(
-      LANGUAGE_NONE => array(
-        0 => array (
-          'value' => $Comentario,
-          'format' => 'filtered_html'
-        )
-      )
-    ),
-  );
-  comment_submit($comment);
-  comment_save($comment);
-}
 
 ?>
