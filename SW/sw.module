@@ -19,7 +19,7 @@ function sw_rest() {
  	
   //index o.o! 
 
-  if ($_POST["index"] && empty($_POST["idNode"]) && empty($_POST["comentario"])) {
+  if (!empty($_POST["index"]) && empty($_POST["idNode"]) && empty($_POST["comentario"])) {
       require_once('node.php'); 
       getAll();
   }
