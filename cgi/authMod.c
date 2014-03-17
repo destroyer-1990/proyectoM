@@ -10,149 +10,96 @@ char *str2md5(const char*, int);
 int main(int argc, char *argv[]){
 	char *user_hash,*pass_hash;
 
+	// Gerenamos los hashes de las cadenas enviadas por el usuario
 	if(argc == 3){
 		user_hash=str2md5(argv[1],strlen(argv[1]));
 		pass_hash=str2md5(argv[2],strlen(argv[2]));
+		// Verificamos los datos contra la base si los datos existen
+		// regresamos el valor de 1
 		if(contactaBase(user_hash,pass_hash))
 			return 1;
 	}
-
-	puts("acabaron los hashes");
-
 
 	return 0;
 }
 
 char *str2md5(const char *str, int length) {
 	int n;
-	MD5_CTX c;
 	unsigned char digest[16];
-	char *out = (char*)malloc(33);
+	char *md5str = (char*)malloc(33);
 
-	MD5_Init(&c);
+	// Aplicamos la funcion de hash a la cadena
+	MD5((unsigned char*)str, strlen(str), (unsigned char*)&digest);    
 
-	while (length > 0) {
-		if (length > 512) 
-			MD5_Update(&c, str, 512);
-		else 
-			MD5_Update(&c, str, length);
-		
-		length -= 512;
-		str += 512;
-	}
+	// Generamos una cadena en formato hexadecimal a partir del arreglo de bytes
+	for(n = 0; n < 16; n++)
+	         sprintf(&md5str[n*2], "%02x", (unsigned int)digest[n]);
 
-	MD5_Final(digest, &c);
+	//printf("%s\n",md5str);
 
-	for (n = 0; n < 16; ++n)
-		snprintf(&(out[n*2]), 16*2, "%02x", (unsigned int)digest[n]);
-
-	return out;
+	return md5str;
 }
 
 int contactaBase(char *usr, char* pwd){
-
-	int retval;
-
-	// The number of queries to be handled,size of each query and pointer
-	//int q_cnt = 5,q_size = 150,ind = 0;
-	//char **queries = malloc(sizeof(char) * q_cnt * q_size);
-
-	// A prepered statement for fetching tables
+	int retval,flag=0;
+	char query[122];
+	// Estructura para manipular las consultas
 	sqlite3_stmt *stmt;
 
-	// Create a handle for database connection, create a pointer to sqlite3
+	// Creamos un apuntador para la conexion a la base
 	sqlite3 *handle;
 
-	// try to create the database. If it doesnt exist, it would be created
-	// pass a pointer to the pointer to sqlite3, in short sqlite3**
+	// Realizamos la conexion a la base de datos
 	retval = sqlite3_open("../database/mod2.db",&handle);
-	// If connection failed, handle returns NULL
-	if(retval)
-		printf("Database connection failed\n");
-	//return -1;
-	printf("Connection successful\n");
 
-	char query[122];
+	if(retval){
+		puts("No se pudo conectar con la base");
+		return flag;
+	}
+
+	//puts("Conexion exitosa");
+
 	strcpy(query,"SELECT user,pass FROM usuarios WHERE user='");
 	strcat(query,usr);
 	strcat(query,"' and pass ='");
 	strcat(query,pwd);
 	strcat(query,"'");	
 
-	
-
-puts("query bien");	
-	//ind++;
-	//queries[ind++] = "SELECT * from usuarios";
-	//retval = sqlite3_prepare_v2(handle,queries[ind-1],-1,&stmt,0);
-	//retval = sqlite3_prepare_v2(handle,"SELECT user from usuarios",-1,&stmt,0);
+	// Realizamos la consulta
 	retval = sqlite3_prepare_v2(handle,query,strlen(query)+1,&stmt,NULL);
-puts("ejecutando query");
 
-	printf("%d",retval);
-
-	if(retval)
-		printf("Selecting data from DB Failed\n");
-
-	// Read the number of rows fetched
-	int cols = sqlite3_column_count(stmt);
-
+	if(retval){
+		puts("No se ha podido contactar la base");
+		return flag;
+	}
 
 	while(1){
-		puts("empiezo");
-			// fetch a row's status
+		// Comprobamos el estado del registro
 		retval = sqlite3_step(stmt);
 
-		puts("def cte sql");
-
-	printf("<%d,%d,%d>\n",retval,SQLITE_ROW,SQLITE_DONE);
 		if(retval == SQLITE_ROW){
-
-			puts("aun imprimo");
-			int col;
-			// SQLITE_ROW means fetched a row
-
-			printf(",%d\n",cols);
-			// sqlite3_column_text returns a const void* , typecast it to const char*
-				const char *val1 = (const char*)sqlite3_column_text(stmt,0);
-				printf("%s\t",val1);
-				const char *val2 = (const char*)sqlite3_column_text(stmt,1);
-				printf("%s\t",val2);
-
-	if(!(strcmp(usr,val1) || strcmp(pwd,val2))){
-		puts("bienvenido");
-	sqlite3_finalize(stmt);
-	sqlite3_close(handle);
-		return 1;
-	}
-
-
-			puts("\navance 1");
-
-			printf("\n");
+			// Guardamos los datos del usuario 
+			const char *val1 = (const char*)sqlite3_column_text(stmt,0);// usuario
+			const char *val2 = (const char*)sqlite3_column_text(stmt,1);// contrasena
+			
+			// Verificamos si son datos de un usuario valido
+			if(!(strcmp(usr,val1) || strcmp(pwd,val2)))
+				flag++;
 		}
-		else if(retval == SQLITE_DONE){
-			puts("a punto de romper");
-		// All rows finished
-		//printf("All rows fetched\n");
+		else if(retval == SQLITE_DONE)//si se han revisado rodos los registros rompemos
+			break;					//el ciclo while
+		else{
+			puts("Se han presentado errores");
 			break;
 		}
-		else
-		// Some error encountered
-			printf("Some error encountered\n");
 
-		puts("repito");
 	}
 
-	puts("casi cerramos el changarro");
-
+	// Liberamos la memoria de la estructura usada para el query
 	sqlite3_finalize(stmt);
-
-
-	puts("cerramos el changarro");
-
+	// Cerramos la conexion con la base de datos
 	sqlite3_close(handle);
 		
-	return 0;
+	return flag;
 
 }
