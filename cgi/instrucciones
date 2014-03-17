@@ -1,0 +1,49 @@
+---------------------------------
+Comunicacion con el frontend
+---------------------------------
+
+Primero copia el archivo modAuth a /var/www
+
+En el archivo.php donde se requiera la comunicacion con el CGI, agregar las sig lineaspassthru("/var/www/authMod ".$user." ".$pass,$ret);
+
+***
+
+if($ret!=0)
+    echo 'exito';
+	else
+	    echo 'fracaso';
+	passthru("/var/www/authMod ".$user." ".$pass,$ret);
+
+	if($ret!=0)
+	    echo 'exito';
+	else
+	    echo 'fracaso';
+
+***
+
+Agrega el codigo segun sea exitosa la autenticacion o no
+
+-----------------------------------
+Comunicacion con la base de datos
+-----------------------------------
+
+La siguiente linea debe ser modificado a la ubicacion proporcionada por el dba XD en el archivo authMod.c
+
+   retval = sqlite3_open("../database/mod2.db",&handle);
+
+Asi tambien los campos user,pass y el nombre de la tabla usuarios deben cambiarse por los especificados por el DBA, en las lineas que las oontengan
+
+Los datos en la base deben estar cifrados, es responsabilidad del admin del sitio
+
+Para recompilar el codigo usar la siguiente instruccion en terminal
+
+   gcc authMod.c -o authMod -lssl -lsqlite3
+
+-----------------------------------
+Posibles errores
+-----------------------------------
+
+Si se presentan problemas con la compilacion relacionadas a sqlite3, ejecutar
+
+   apt-get install libsqlite3-devel
+   
