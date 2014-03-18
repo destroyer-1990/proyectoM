@@ -42,7 +42,8 @@ char *str2md5(const char *str, int length) {
 
 int contactaBase(char *usr, char* pwd){
 	int retval,flag=0;
-	char query[122];
+	//char query[122];
+	char query[132];
 	// Estructura para manipular las consultas
 	sqlite3_stmt *stmt;
 
@@ -50,7 +51,8 @@ int contactaBase(char *usr, char* pwd){
 	sqlite3 *handle;
 
 	// Realizamos la conexion a la base de datos
-	retval = sqlite3_open("../database/mod2.db",&handle);
+	//retval = sqlite3_open("../database/mod2.db",&handle);
+	retval = sqlite3_open("/root/bdfrontend.db",&handle);
 
 	if(retval){
 		puts("No se pudo conectar con la base");
@@ -59,9 +61,9 @@ int contactaBase(char *usr, char* pwd){
 
 	//puts("Conexion exitosa");
 
-	strcpy(query,"SELECT user,pass FROM usuarios WHERE user='");
+	strcpy(query,"SELECT login,password FROM usuarios WHERE login='");
 	strcat(query,usr);
-	strcat(query,"' and pass ='");
+	strcat(query,"' and password ='");
 	strcat(query,pwd);
 	strcat(query,"'");	
 
@@ -83,8 +85,10 @@ int contactaBase(char *usr, char* pwd){
 			const char *val2 = (const char*)sqlite3_column_text(stmt,1);// contrasena
 			
 			// Verificamos si son datos de un usuario valido
-			if(!(strcmp(usr,val1) || strcmp(pwd,val2)))
+			if(!(strcmp(usr,val1) || strcmp(pwd,val2))){
 				flag++;
+				//puts("bienvenido");
+			}
 		}
 		else if(retval == SQLITE_DONE)//si se han revisado rodos los registros rompemos
 			break;					//el ciclo while
