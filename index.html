@@ -1,5 +1,31 @@
-<html>
-	<body>
-		<h1>holas</h1>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<head>
+		<link rel="stylesheet" href="mystyle.css" type="text/css">		
+		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+		<script>
+		$(function() {
+		$( "#sortable" ).sortable();
+		$( "#sortable" ).disableSelection();
+		});
+	</script>
+     	</head>
+        <body>
+		<div id="cabecera" align= "center" >
+		<input type="submit" value="login">
+		</div>
+                <div class="proy" >
+		<ul id="sortable">
+			<li id="draggable1"><a href="http://www.seguridad.unam.mx/main.dsc"><img src="seguridad.jpg" alt="" width="250" height="150"><small>casilla numero 1</small></a></li>
+			<li id="draggable2"><a href="http://www.cert.org.mx/index.html"><img src="seguridad2.jpg" alt="" width="250" height="150"><small>casilla numero 2</small></a></li>
+			<li id="draggable3"><a href="http://www.malware.unam.mx/"><img src="seguridad.jpg" alt="" width="250" height="150"><small>casilla numero 3</small></a></li>
+			<li id="draggable4"><a href="http://www.twitter.com/unamcert"><img src="seguridad2.jpg" alt="" width="250" height="150"><small>casilla numero 4</small></a></li>
+			<li id="draggable5"><a href="http://goo.gl/pJBb"><img src="seguridad.jpg" alt="" width="250" height="150"><small>casilla numero 5</small></a></li>					
+			<li id="draggable6"><a href="http://www.seguridad.unam.mx/ouch"><img src="seguridad2.jpg" alt="" width="250" height="150"><small>casilla numero 6</small></a></li>
+			<li id="draggable7"><a href="http://www.seguridad.unam.mx/usuario-casero"><img src="seguridad2.jpg" alt="" width="250" height="150"><small>casilla numero 7</small></a></li>
+			<li id="draggable8"><a href="http://www.seguridad.unam.mx"><img src="seguridad.jpg" alt="" width="250" height="150"><small>casilla numero 8</small></a></li>
+			<li id="draggable9"><a href="http://honeynet.unam.mx/"><img src="seguridad2.jpg" alt="" width="250" height="150"><small>casilla numero 9</small></a></li>			
+		</ul>
+		</div>
 	</body>
 </html>
