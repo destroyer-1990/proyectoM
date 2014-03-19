@@ -57,12 +57,21 @@ function getNode($nid){
   //Nombre de la imagen
   $body = field_get_items('node',$node, 'field_image');
   $imagen = ($body[0]['filename']);
-  $rimagen = "/var/www/drupalsite/sites/default/files/styles/large/public/field/image/".$imagen;
-  $imagen = base64_encode(file_get_contents($rimagen));
-  $imagen = 'data: '.mime_content_type($rimagen).';base64,'.$imagen;
-  $imagen = '<img src="',$imagen,'">';
+  #echo ($body[0]['filename']);
+  $rimagen = "/var/www/sites/default/files/styles/large/public/field/image/".$imagen;
+  #echo $rimagen;
+  $b64 = base64_encode(file_get_contents($rimagen));
+  #echo $b64;
+  #echo utf8_encode($imagen);
+  #echo utf8_decode($imagen);
+  $imagen = '<img src="data: '.mime_content_type($imagen).';base64,'.$b64.'">';
+  #$imagen = 'data: '.mime_content_type($imagen).';base64,'.$b64;
+  #$imagen = '<img src="'.$imagen.'">';
+  #echo $imagen;
+  $imagen =utf8_encode($imagen);
   #echo '<br>';
   
+
   //Ruta de la imagen
   #$body = field_get_items('node',$node, 'field_image');
   #print $body[0]['uri'];
