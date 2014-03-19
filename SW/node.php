@@ -51,23 +51,31 @@ function getNode($nid){
         #print (utf8_decode ($body[0]['value']));
   $contenido = $body[0]['value'];
   
-  #echo  str_replace($some2,$some,$contenido);
-  #$contenido = str_replace('á','&aacute;',$contenido);
-  #$contenido = str_replace('í','&iacute;',$contenido);
-  #$contenido = str_replace('ó','&oacute;',$contenido);
-  #$contenido = str_replace('ú','&uacute;',$contenido);
-  #$contenido = str_replace('ñ','&ntilde;',$contenido);
   
   
   #echo '<br>';
   //Nombre de la imagen
-  #$body = field_get_items('node',$node, 'field_image');
-  #print ($body[0]['filename']);
-  #echo '<br>';
-  //Ruta de la imagen
   $body = field_get_items('node',$node, 'field_image');
+  $imagen = ($body[0]['filename']);
+  #echo ($body[0]['filename']);
+  $rimagen = "/var/www/sites/default/files/styles/large/public/field/image/".$imagen;
+  #echo $rimagen;
+  $b64 = base64_encode(file_get_contents($rimagen));
+  #echo $b64;
+  #echo utf8_encode($imagen);
+  #echo utf8_decode($imagen);
+  $imagen = '<img src="data: '.mime_content_type($imagen).';base64,'.$b64.'">';
+  #$imagen = 'data: '.mime_content_type($imagen).';base64,'.$b64;
+  #$imagen = '<img src="'.$imagen.'">';
+  #echo $imagen;
+  $imagen =utf8_encode($imagen);
+  #echo '<br>';
+  
+
+  //Ruta de la imagen
+  #$body = field_get_items('node',$node, 'field_image');
   #print $body[0]['uri'];
-  $imagen = $body[0]['uri'];
+  #$imagen = $body[0]['uri'];
   #echo '<br>';
   //comentarios
   $result = db_select('comment') ->fields('comment', array('cid')) ->condition('nid', $node->nid, '=') ->execute();

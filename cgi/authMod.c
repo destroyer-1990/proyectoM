@@ -10,7 +10,7 @@ char *str2md5(const char*, int);
 int main(int argc, char *argv[]){
 	char *user_hash,*pass_hash;
 
-	// Gerenamos los hashes de las cadenas enviadas por el usuario
+	// Generamos los hashes de las cadenas enviadas por el usuario
 	if(argc == 3){
 		user_hash=str2md5(argv[1],strlen(argv[1]));
 		pass_hash=str2md5(argv[2],strlen(argv[2]));
