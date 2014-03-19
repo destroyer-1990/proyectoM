@@ -7,10 +7,11 @@
 body{
 	padding:0;
 	margin:0;
-	font-size:20px;
+	font-size:25px;
 	font-family:"Helvetica Neue","Trebuchet MS","Verdana","Arial","Sans-serif";
 	font-weight:300;
-	background:#DCDBDB url('drupal5.png') no-repeat fixed center;
+	opacity:50;
+	background:#DCDBDB url('background5.png') no-repeat fixed center;
 	color:black
 }
 
