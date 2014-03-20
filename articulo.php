@@ -55,7 +55,6 @@
 		echo '<p>Comentario '.$i.'<br>'.$comentario.'</p><br>';
 		$i++;
 	}
-
 ?>
 			<form action="conDrupal/comentar.php" method="post">
 				<p>

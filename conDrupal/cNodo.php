@@ -1,5 +1,4 @@
 <?php
-
 class nodo {
 	public $fecha;
 	public $contenido;

@@ -9,4 +9,5 @@
 	$obj->comentar($_POST["idNode"],$_POST["comentario"]);
 
 	header('Location: http://debian7proj.cloudapp.net/articulo.php?idNode='.$_POST['idNode']);
+
 ?>
