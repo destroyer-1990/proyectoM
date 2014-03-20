@@ -11,7 +11,7 @@
 if(empty($_GET['idNode']))
 return;
 
-require_once('cNodo.php');
+require_once('conDrupal/cNodo.php');
 $obj= new nodo($_GET['idNode']);
 //print_r( $obj);
 echo '<p><span>Fecha de publicación: </span>';
