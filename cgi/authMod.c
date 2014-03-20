@@ -52,7 +52,7 @@ int contactaBase(char *usr, char* pwd){
 
 	// Realizamos la conexion a la base de datos
 	//retval = sqlite3_open("../database/mod2.db",&handle);
-	retval = sqlite3_open("/root/bdfrontend.db",&handle);
+	retval = sqlite3_open("/root/proyectotonejo/bdfrontend.db",&handle);
 
 	if(retval){
 		puts("No se pudo conectar con la base");
