@@ -7,8 +7,6 @@ class nodo {
 	public $lenguaje;
 	public $comentarios;
 	public $titulo;
-	
-
 
 	public function getNodo($idNode){
 		$url = 'http://chelo.cloudapp.net/?q=sw/rest';

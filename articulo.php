@@ -34,7 +34,6 @@
 
 	echo '<br>';
 
-	#echo '<br><br>Imagen<br><br>';
 	echo '<span>';
 	echo $obj->getImagen();
 	echo '</span></p>';
