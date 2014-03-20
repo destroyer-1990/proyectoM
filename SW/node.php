@@ -8,10 +8,12 @@ function getAll(){
 
     $node = node_load($i);                                 
     #echo '<br>';
+ 
     //fecha
     $fecha = getdate( $node->created );
     $fecha = $fecha["mday"]."-".$fecha["mon"]."-".$fecha["year"];
     #echo '<br>';
+   
     //titulo de la nota, articulo, lo que sea
     #print($node->title);
     $titulo = $node->title;
@@ -33,29 +35,27 @@ function getAll(){
 function getNode($nid){
   #Cargar, obtener el nodo,
   $node = node_load($nid);                                 
-  #echo '<br>';
+  
   //fecha
   $fecha = getdate( $node->created );
   $fecha = $fecha["mday"]."-".$fecha["mon"]."-".$fecha["year"];
-  #echo '<br>';
+  
   //titulo de la nota, articulo, lo que sea
   #print($node->title);
   $titulo = $node->title;
-  #echo '<br>';
-  //lenguaje
+  
+ //lenguaje
   #print($node->language);
   $lenguaje=$node->language;
-  #echo '<br>';
+
   //Contenido del articulo
   $body = field_get_items('node',$node, 'body');
         #print (utf8_decode ($body[0]['value']));
   $contenido = $body[0]['value'];
   
-  
-  
-  #echo '<br>';
   //Nombre de la imagen
   $body = field_get_items('node',$node, 'field_image');
+  
   $imagen = ($body[0]['filename']);
   #echo ($body[0]['filename']);
   $rimagen = "/var/www/sites/default/files/styles/large/public/field/image/".$imagen;
@@ -69,14 +69,13 @@ function getNode($nid){
   #$imagen = '<img src="'.$imagen.'">';
   #echo $imagen;
   $imagen =utf8_encode($imagen);
-  #echo '<br>';
   
 
   //Ruta de la imagen
   #$body = field_get_items('node',$node, 'field_image');
   #print $body[0]['uri'];
   #$imagen = $body[0]['uri'];
-  #echo '<br>';
+  
   //comentarios
   $result = db_select('comment') ->fields('comment', array('cid')) ->condition('nid', $node->nid, '=') ->execute();
   $cids = $result->fetchCol();
