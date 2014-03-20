@@ -59,10 +59,10 @@
 			<form action="conDrupal/comentar.php" method="post">
 				<p>
 					<br>
-						Comentario:<br><textarea cols="35" name="comentario" rows="4" ></textarea>
+						Comentario:<br><textarea id="field" cols="35" name="comentario" rows="4" ></textarea>
 				</p>
 				<p>
-					<input type="submit" value="Comentar"/></p>
+					<input id="boton" type="submit" value="Comentar"/></p>
 					<input type="hidden" name="idNode" value="<?php echo $_GET['idNode'];?>">
 					<br>
 			</form>

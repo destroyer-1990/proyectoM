@@ -85,3 +85,25 @@ width:550px;
 height:400px; 
 }
 
+
+#boton {
+background-color: #dddddd;
+border: Defaultpx ridge #000000;
+color: #000000;
+font-size: large;
+font-family: verdana;
+font-style: normal;
+font-weight: ;
+padding: 3px;
+}
+
+#field {
+background-color: #ffffff;
+border: mediumpx groove #000000;
+color: #000000;
+font-size: large;
+font-family: verdana;
+font-style: normal;
+font-weight: ;
+padding: 2px;
+}
