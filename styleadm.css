@@ -1,0 +1,85 @@
+*{
+	margin:0 auto;
+	padding:0;
+	min-width:0
+}
+/*se encarga de la imagen del drupal y el background*/
+body{
+	padding:0;
+	margin:0;
+	font-size:25px;
+	font-family:"Helvetica Neue","Trebuchet MS","Verdana","Arial","Sans-serif";
+	font-weight:300;
+	background:#DCDBDB url('background7.png') no-repeat fixed center;
+	color:white
+}
+
+/*pone las casillas en su lugar*/
+.proy{
+	margin:100px auto 0;
+	max-width:980px;
+	overflow:hidden;
+	text-align:left
+}
+
+.proy li{
+	list-style:none;
+	float:left;
+	display:inline;
+	text-align:left
+}
+
+.proy li a{
+	display:block;
+	position:relative;
+	margin:0 20px 20px;
+	border:0 solid  #DCDBDB;
+	color:white;
+	text-decoration:none;
+	-moz-box-shadow:3px 3px 10px rgba(0,0,0,.5)
+}
+
+.proy li img{
+	width:250px;
+	height:150px
+}
+
+.proy li a small{
+	height:27px;
+	position:absolute;
+	display:block;
+	padding:6px 9px 18px;
+	background:#DCDBDB;
+	bottom:0;
+	right:0;
+	left:0;
+	font-size:1.4em;
+	opacity:0;
+	filter:alpha(opacity=0);
+	-webkit-transition:200ms opacity;
+	-moz-border-radius:0 0 10px 10px
+}
+
+/*.proy li.principal a small{
+	height:150px;
+	font-size:2em
+}*/
+
+.proy li a:hover small{
+	display:block;
+	opacity:.8;
+	filter:alpha(opacity=80)
+}
+
+#pie{
+	text-align:left
+}
+
+#proy{ 
+background-color:blue; 
+position:relative;
+top:50%;
+left:50%;
+width:550px;
+height:400px; 
+}
