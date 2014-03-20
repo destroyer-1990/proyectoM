@@ -6,7 +6,7 @@
 
 #define MAXLEN 150
 #define EXTRA 5
-/* 4 for field name "data", 1 for "=" */
+/* 4 for "data", 1 for "=" */
 #define MAXINPUT MAXLEN+EXTRA+2
 
 int contactaBase(char*,char*);
