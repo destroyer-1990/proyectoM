@@ -4,16 +4,26 @@
 #include<openssl/md5.h>
 #include<sqlite3.h>
 
+#define MAXLEN 80
+#define EXTRA 5
+/* 4 for field name "data", 1 for "=" */
+#define MAXINPUT MAXLEN+EXTRA+2
+
 int contactaBase(char*,char*);
 char *str2md5(const char*, int);
 int indexOf(char,char*);
+char* obtenDatos();
 
 int main(void){
 	char *user,*pass,*user_hash,*pass_hash;
 	char *data;
 
 	printf("%s%c%c\n","Content-Type:text/html;charset=iso-8859-1",13,10);
-	data = getenv("QUERY_STRING");
+	puts("<TITLE>Response</TITLE>\n");
+
+
+	//data = getenv("QUERY_STRING");
+	data = obtenDatos();
 	sscanf(data,"user=%s",user);
 	pass = user+indexOf('=',user)+1;
 	*(user+indexOf('&',user)) = '\0';
@@ -144,3 +154,17 @@ int indexOf(char c, char* str){
     return -1; 
 }
 
+char* obtenDatos(){
+    char *lenstr;
+	char* input=(char*)malloc(MAXINPUT*sizeof(char));
+	long len;
+
+	lenstr = getenv("CONTENT_LENGTH");
+
+	if(lenstr == NULL || sscanf(lenstr,"%ld",&len)!=1 || len > MAXLEN)
+		printf("<P>Error in invocation - wrong FORM probably.");
+	else
+		fgets(input, len+1, stdin);
+
+  	return input;
+}
