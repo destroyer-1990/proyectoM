@@ -6,19 +6,33 @@
 
 int contactaBase(char*,char*);
 char *str2md5(const char*, int);
+int indexOf(char,char*);
 
-int main(int argc, char *argv[]){
-	char *user_hash,*pass_hash;
+int main(void){
+	char *user,*pass,*user_hash,*pass_hash;
+	char *data;
 
+	printf("%s%c%c\n","Content-Type:text/html;charset=iso-8859-1",13,10);
+	data = getenv("QUERY_STRING");
+	sscanf(data,"user=%s",user);
+	pass = user+indexOf('=',user)+1;
+	*(user+indexOf('&',user)) = '\0';
+	
 	// Generamos los hashes de las cadenas enviadas por el usuario
-	if(argc == 3){
-		user_hash=str2md5(argv[1],strlen(argv[1]));
-		pass_hash=str2md5(argv[2],strlen(argv[2]));
+//	if(argc == 3){
+		user_hash=str2md5(user,strlen(user));
+		pass_hash=str2md5(pass,strlen(pass));
 		// Verificamos los datos contra la base si los datos existen
 		// regresamos el valor de 1
+
+		//printf("%s,%s\n",user,pass);
+
+
 		if(contactaBase(user_hash,pass_hash))
 			return 1;
-	}
+//	}
+	
+	//puts("\n");
 
 	return 0;
 }
@@ -52,7 +66,8 @@ int contactaBase(char *usr, char* pwd){
 
 	// Realizamos la conexion a la base de datos
 	//retval = sqlite3_open("../database/mod2.db",&handle);
-	retval = sqlite3_open("/root/proyectotonejo/bdfrontend.db",&handle);
+	//retval = sqlite3_open("/root/proyectotonejo/bdfrontend.db",&handle);
+	retval = sqlite3_open("/root/repos/ProyectoModulo2/proyectotonejo/bdfrontend.db",&handle);
 
 	if(retval){
 		puts("No se pudo conectar con la base");
@@ -87,11 +102,23 @@ int contactaBase(char *usr, char* pwd){
 			// Verificamos si son datos de un usuario valido
 			if(!(strcmp(usr,val1) || strcmp(pwd,val2))){
 				flag++;
-				//puts("bienvenido");
+				puts("<h1>Bienvenido</h1>\n");
+//********************** Nota Modificar direccion ************************************
+				puts("<form action=\"http://debian7proj.cloudapp.net\">");
+//************************************************************************************
+				puts("<div><input type=\"submit\" value=\"Continuar\"></div>");
+				puts("</form>");
+
+				break;
 			}
 		}
-		else if(retval == SQLITE_DONE)//si se han revisado rodos los registros rompemos
+		else if(retval == SQLITE_DONE){//si se han revisado rodos los registros rompemos
+			puts("<h1>Revise sus datos</h1>");
+			puts("<form action=\"http://debian7proj.cloudapp.net/login.php\">");
+			puts("<div><input type=\"submit\" value=\"Regresar\"></div>");
+			puts("</form>");
 			break;					//el ciclo while
+		}
 		else{
 			puts("Se han presentado errores");
 			break;
@@ -107,3 +134,13 @@ int contactaBase(char *usr, char* pwd){
 	return flag;
 
 }
+
+int indexOf(char c, char* str){
+    int i;
+
+	for(i=0;i<strlen(str);i++)
+        if(*(str+i) == c)
+          return i;
+    return -1; 
+}
+
