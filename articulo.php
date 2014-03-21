@@ -12,8 +12,8 @@
 	return;
 
 	require_once('conDrupal/cNodo.php');
-	$obj= new nodo();
-	$obj->getNodo($_GET['idNode']);
+#	$obj= new nodo();
+#	$obj->getNodo($_GET['idNode']);
 	//print_r( $obj);
 	
 	echo '<p><span>Fecha de publicación: </span>';

@@ -79,4 +79,8 @@ class nodo {
 		echo $result;
 	}
 }
+
+        $obj= new nodo();
+        $obj->getNodo($_GET['idNode']);
+
 ?>
