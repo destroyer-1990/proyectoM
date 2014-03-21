@@ -18,7 +18,7 @@ function getAll(){
     #print($node->title);
     $titulo = $node->title;
     #print $comment->comment_body ["und"][0] ["value"];
-    $arr = array('fecha' => $fecha,'titulo'=>$titulo );
+    $arr = array('fecha' => $fecha,'titulo'=>$titulo,'idNode'=>$i );
     $articulos[''.$i]=$arr; 
     
   }

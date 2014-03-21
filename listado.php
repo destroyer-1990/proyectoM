@@ -31,7 +31,7 @@ $result = file_get_contents($url, false, $context);
 $obj = json_decode($result,true);
 
 foreach($obj['articulos'] as $articulo){
-	echo '<p>'.$articulo['fecha'].' - '.$articulo['titulo'].'</p>';
+	echo '<p><a href="articulo.php?idNode='.$articulo['idNode'].'">'.$articulo['fecha'].' - '.$articulo['titulo'].'</a></p>';
 	
 }
 
