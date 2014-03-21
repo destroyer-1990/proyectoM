@@ -2,7 +2,9 @@
 /**
  * Implementa hook_menu().
  */
+
 function sw_menu() {
+
   $items['sw/rest'] = array(
     'title' => 'Saludar',
     'page callback' => 'sw_rest',
@@ -16,24 +18,36 @@ function sw_menu() {
  */
 function sw_rest() {
 
- 	
-  //index o.o! 
+  $aux =  include_once('comments.php'); 
+  $aux2=  include_once('node.php'); 
+  if (!$aux || !$aux2 ) {
+	 $arr = 
+	    array(
+	        "fecha" =>" ",
+	        "titulo" => ' ',
+	        "lenguaje" => ' ',
+	        "contenido" => ' ',
+	        "imagen" => ' ',
+	        "comentarios" =>' '    
+	  );
+	  return json_encode($arr);
+  }
 
   if (!empty($_POST["index"]) && empty($_POST["idNode"]) && empty($_POST["comentario"])) {
-      require_once('node.php'); 
+	#require_once('node.php'); 
       getAll();
   }
 
   //Para obtener el nodo, o publicacioón
   if(!empty($_POST["idNode"]) && empty($_POST["comentario"]) && empty($_POST["index"])){
-    require_once('node.php'); 
-    getNode($_POST["idNode"]);
+    	#require_once('node.php'); 
+	getNode($_POST["idNode"]);
   }
   
   //Agregar comentarios
   if(!empty($_POST["comentario"]) && !empty($_POST["idNode"]) && empty($_POST["index"]) ) {
-    require_once('comments.php'); 
-    addComment($_POST["comentario"],$_POST["idNode"]);
+	#require_once('comments.php'); 
+	addComment($_POST["comentario"],$_POST["idNode"]);
   }
 
 
