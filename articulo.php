@@ -1,3 +1,4 @@
+<?php	require_once('conDrupal/cNodo.php');?>
 <html>
         <head>
                 <link rel="stylesheet" href="cstyle.css" type="text/css">
@@ -11,9 +12,7 @@
 	if(empty($_GET['idNode']))
 	return;
 
-	require_once('conDrupal/cNodo.php');
-#	$obj= new nodo();
-#	$obj->getNodo($_GET['idNode']);
+	#require_once('conDrupal/cNodo.php');
 	//print_r( $obj);
 	
 	echo '<p><span>Fecha de publicación: </span>';
