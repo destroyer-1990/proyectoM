@@ -18,9 +18,8 @@ function sw_menu() {
  */
 function sw_rest() {
 
-  $aux =  include_once('comments.php'); 
-  $aux2=  include_once('node.php'); 
-  if (!$aux || !$aux2 ) {
+  $aux=  include_once('node.php'); 
+  if (!$aux ) {
 	 $arr = 
 	    array(
 	        "fecha" =>" ",
@@ -33,21 +32,28 @@ function sw_rest() {
 	  return json_encode($arr);
   }
 
+  $obj = new nodo();
+  //variables post vacias
+  if(empty($_POST['index']) && empty($_POST['idNode']) && empty($_POST['comentario']) ){
+	$obj->jsonEmpty();
+  }
+
+  //información básica de todos los nodos
   if (!empty($_POST["index"]) && empty($_POST["idNode"]) && empty($_POST["comentario"])) {
 	#require_once('node.php'); 
-      getAll();
+      $obj->getAll();
   }
 
   //Para obtener el nodo, o publicacioón
   if(!empty($_POST["idNode"]) && empty($_POST["comentario"]) && empty($_POST["index"])){
     	#require_once('node.php'); 
-	getNode($_POST["idNode"]);
+	$obj->getNode($_POST["idNode"]);
   }
   
   //Agregar comentarios
   if(!empty($_POST["comentario"]) && !empty($_POST["idNode"]) && empty($_POST["index"]) ) {
 	#require_once('comments.php'); 
-	addComment($_POST["comentario"],$_POST["idNode"]);
+	$obj->addComment($_POST["comentario"],$_POST["idNode"]);
   }
 
 
