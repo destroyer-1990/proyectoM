@@ -34,20 +34,21 @@ function sw_rest() {
 
   $obj = new nodo();
   //variables post vacias
-  if(empty($_POST['index']) && empty($_POST['idNode']) && empty($_POST['comentario']) ){
-	$obj->jsonEmpty();
-  }
+  if(empty($_POST['index']) && empty($_POST['idNode']) && empty($_POST['comentario']) ){ 
+    $obj->jsonEmpty();
+  } 
 
   //información básica de todos los nodos
   if (!empty($_POST["index"]) && empty($_POST["idNode"]) && empty($_POST["comentario"])) {
-	#require_once('node.php'); 
-      $obj->getAll();
+        $obj->getAll();
   }
 
   //Para obtener el nodo, o publicacioón
   if(!empty($_POST["idNode"]) && empty($_POST["comentario"]) && empty($_POST["index"])){
-    	#require_once('node.php'); 
-	$obj->getNode($_POST["idNode"]);
+    if ($_POST["idNode"] < 10 && $_POST["idNode"] > 0)
+	   $obj->getNode($_POST["idNode"]);
+    else
+      $obj->jsonEmpty();   
   }
   
   //Agregar comentarios

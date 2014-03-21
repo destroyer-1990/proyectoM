@@ -7,9 +7,11 @@
 	}
 
 	//variables post vacias y un poco de validación de datos en cuanto a idNode
-	if ( $_POST["idNode"] < 10 ||$_POST["idNode"] > 0 || !is_int($_POST["idNode"]) || empty($_POST["idNode"]) || empty($_POST["comentario"]))
-	header('Location: http://debian7proj.cloudapp.net/');
-	
+	if ( $_POST["idNode"] > 10 || $_POST["idNode"] < 1 || !is_int($_POST["idNode"]) || empty($_POST["idNode"]) || empty($_POST["comentario"]))
+	{
+		header('Location: http://debian7proj.cloudapp.net/');
+		return;
+	}
 	$obj = new nodo();
 	$obj->comentar($_POST["idNode"],$_POST["comentario"]);
 
