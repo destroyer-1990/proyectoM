@@ -9,8 +9,6 @@
         <body>
                 <div class="proy" >
 <?php
-	if(empty($_GET['idNode']))
-	return;
 
 	#require_once('conDrupal/cNodo.php');
 	//print_r( $obj);
