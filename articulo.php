@@ -10,9 +10,7 @@
                 <div class="proy" >
 <?php
 
-	#require_once('conDrupal/cNodo.php');
-	//print_r( $obj);
-	
+
 	echo '<p><span>Fecha de publicación: </span>';
 	echo $obj->getFecha();
 	echo '</p>';
@@ -39,7 +37,7 @@
 
 	echo '<p><span>Contenido:</span><br>';
 	echo $obj->getContenido();
-	#echo '</p>';
+	echo '</p>';
 	
 	echo '<br><br>';
 	
