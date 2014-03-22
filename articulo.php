@@ -47,7 +47,7 @@
 	$i=1;
 	foreach ($some as &$comentario) {
 	
-		echo '<p>Comentario '.$i.'<br>'.$comentario.'</p><br>';
+		echo '<p>Comentario '.$i.'<br><code>'.$comentario.'</code></p><br>';
 		$i++;
 	}
 ?>
