@@ -53,7 +53,7 @@ function sw_rest() {
   
   //Agregar comentarios
   if(!empty($_POST["comentario"]) && !empty($_POST["idNode"]) && empty($_POST["index"]) ) {
-	#require_once('comments.php'); 
+	
 	$obj->addComment($_POST["comentario"],$_POST["idNode"]);
   }
 
