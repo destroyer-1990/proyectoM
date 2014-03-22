@@ -35,9 +35,9 @@
 	
 	echo '<br>';
 
-	echo '<p><span>Contenido:</span><br>';
+	echo '<p><code><span>Contenido:</span><br>';
 	echo $obj->getContenido();
-	echo '</p>';
+	echo '</code></p>';
 	
 	echo '<br><br>';
 	
