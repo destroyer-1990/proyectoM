@@ -45,8 +45,9 @@ function sw_rest() {
 
   //Para obtener el nodo, o publicacioón
   if(!empty($_POST["idNode"]) && empty($_POST["comentario"]) && empty($_POST["index"])){
-    if ($_POST["idNode"] < 10 && $_POST["idNode"] > 0)
-	   $obj->getNode($_POST["idNode"]);
+    $aux= (int)$_POST["idNode"];
+    if ($aux< 10 && $aux > 0)
+	   $obj->getNode($aux);
     else
       $obj->jsonEmpty();   
   }
