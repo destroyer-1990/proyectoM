@@ -3,12 +3,13 @@
 #include<string.h>
 #include<openssl/md5.h>
 #include<sqlite3.h>
-
+#include "defs.h"
+/*
 #define MAXLEN 150
 #define EXTRA 5
-/* 4 for "data", 1 for "=" */
+// 4 for "data", 1 for "=" 
 #define MAXINPUT MAXLEN+EXTRA+2
-
+*/
 int contactaBase(char*,char*);
 char *str2md5(const char*, int);
 int indexOf(char,char*);
@@ -18,7 +19,7 @@ int main(void){
 	char *user,*pass,*user_hash,*pass_hash;
 	char *data;
 
-	printf("%s%c%c\n","Content-Type:text/html;charset=iso-8859-1",13,10);
+	printf("%s%c%c\n","Content-Type:text/html;charset=utf-8",13,10);
 	puts("<TITLE>Response</TITLE>\n");
 
 
@@ -77,8 +78,9 @@ int contactaBase(char *usr, char* pwd){
 
 	// Realizamos la conexion a la base de datos
 	//retval = sqlite3_open("../database/mod2.db",&handle);
-	retval = sqlite3_open("/var/www/bdfrontend.db",&handle);
+	//retval = sqlite3_open("/var/www/bdfrontend.db",&handle);
 	//retval = sqlite3_open("/root/repos/ProyectoModulo2/proyectotonejo/bdfrontend.db",&handle);
+	retval = sqlite3_open(DIR_DATABASE,&handle);
 
 	if(retval){
 		puts("No se pudo conectar con la base");
