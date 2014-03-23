@@ -35,9 +35,9 @@
 	
 	echo '<br>';
 
-	echo '<p><span>Contenido:</span><br>';
+	echo '<p><code><span>Contenido:</span><br>';
 	echo $obj->getContenido();
-	echo '</p>';
+	echo '</code></p>';
 	
 	echo '<br><br>';
 	
@@ -47,7 +47,7 @@
 	$i=1;
 	foreach ($some as &$comentario) {
 	
-		echo '<p>Comentario '.$i.'<br>'.$comentario.'</p><br>';
+		echo '<p>Comentario '.$i.'<br><code>'.$comentario.'</code></p><br>';
 		$i++;
 	}
 ?>
