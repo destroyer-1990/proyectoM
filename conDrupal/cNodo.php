@@ -32,7 +32,13 @@ class nodo {
 		$this->lenguaje=$obj['lenguaje'];
 		$this->titulo=$obj['titulo'];
 		$this->imagen=$obj['imagen'];
-		$this->comentarios=$obj['comentarios'];
+
+		//intentando combatir XSS
+	          $no =array ("<",">");
+	          $si =array ("&lt;","&gt; ");
+	          $ncom=str_replace($no,$si,$obj['comentarios']);
+
+		$this->comentarios=$ncom;
 		$this->contenido=$obj['contenido'];
 		}
 	public function getFecha(){
