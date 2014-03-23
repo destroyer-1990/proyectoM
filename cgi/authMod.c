@@ -4,46 +4,61 @@
 #include<openssl/md5.h>
 #include<sqlite3.h>
 #include "defs.h"
-/*
-#define MAXLEN 150
-#define EXTRA 5
-// 4 for "data", 1 for "=" 
-#define MAXINPUT MAXLEN+EXTRA+2
-*/
+#include<regex.h>
+
+struct par{
+	char* llave;
+	char* valor;
+};
+
 int contactaBase(char*,char*);
 char *str2md5(const char*, int);
 int indexOf(char,char*);
 char* obtenDatos();
+void setPar(struct par* p,char* s);
 
 int main(void){
 	char *user,*pass,*pass_hash;
 	char *data;
-
-	//printf("%s%c%c\n","Content-Type:text/html;charset=utf-8",13,10);
+	struct par p1,p2;
+	char *ap1,*ap2;
+	regex_t regex;
 
 	puts("Content-Type:text/html;charset=utf-8");
-	//data = getenv("QUERY_STRING");
+
 	data = obtenDatos();
 
-	sscanf(data,"user=%s",user);
-	pass = user+indexOf('=',user)+1;
-	*(user+indexOf('&',user)) = '\0';
-	
-	// Generamos los hashes de las cadenas enviadas por el usuario
-//	if(argc == 3){
-		//user_hash=str2md5(user,strlen(user));
-		pass_hash=str2md5(pass,strlen(pass));
-		// Verificamos los datos contra la base si los datos existen
-		// regresamos el valor de 1
+	ap1=strtok(data,"&");
+	ap2=strtok(NULL,"&");
 
-		//printf("%s,%s\n",user,pass);
+	setPar(&p1,ap1);
+	setPar(&p2,ap2);
 
+	regcomp(&regex,"^[a-z0-9]+$",REG_EXTENDED);
+	if(regexec(&regex,p1.valor,0,NULL,0) || regexec(&regex,p2.valor,0,NULL,0)){
+		puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
+		return 0;
+	}
 
-		if(contactaBase(user,pass_hash))
+	if(!(strcmp(p1.llave,"user") && strcmp(p2.llave,"pass"))){
+		user=p1.valor;
+		pass=p2.valor;
+	}else if(!(strcmp(p1.llave,"pass") && strcmp(p2.llave,"user"))){
+		user=p2.valor;
+		pass=p1.valor;
+	}else{
+		puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
+		return 0;
+	}
+
+	// Generamos el hash de la contrasena
+	pass_hash=str2md5(pass,strlen(pass));
+	//printf("%s,%s\n",user,pass);
+
+	// Verificamos los datos contra la base si los datos existen
+	// regresamos el valor de 1
+	if(contactaBase(user,pass_hash))
 			return 1;
-//	}
-	
-	//puts("\n");
 
 	return 0;
 }
@@ -69,6 +84,7 @@ int contactaBase(char *usr, char* pwd){
 	int retval,flag=0;
 	//char query[122];
 	char query[132];
+
 	// Estructura para manipular las consultas
 	sqlite3_stmt *stmt;
 
@@ -103,62 +119,13 @@ int contactaBase(char *usr, char* pwd){
 	
 	switch(retval){
 		case SQLITE_ROW:
-			const char *val1 = (const char*)sqlite3_column_text(stmt,0);// usuario
-			const char *val2 = (const char*)sqlite3_column_text(stmt,1);// contrasena
-			
 			// Verificamos si son datos de un usuario valido
-			if(!(strcmp(usr,val1) || strcmp(pwd,val2)))
+			if(!(strcmp(usr,sqlite3_column_text(stmt,0)) || strcmp(pwd,sqlite3_column_text(stmt,1))))
 				puts("Location: http://debian7proj.cloudapp.net\n\n");
 			break;
 		case SQLITE_DONE:
 			puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
 			break;
-}
-
-	}
-/*
-	while(1){
-		// Comprobamos el estado del registro
-		retval = sqlite3_step(stmt);
-
-		if(retval == SQLITE_ROW){
-			// Guardamos los datos del usuario 
-			const char *val1 = (const char*)sqlite3_column_text(stmt,0);// usuario
-			const char *val2 = (const char*)sqlite3_column_text(stmt,1);// contrasena
-			
-			// Verificamos si son datos de un usuario valido
-			if(!(strcmp(usr,val1) || strcmp(pwd,val2))){
-*				flag++;
-				puts("<h1>Bienvenido</h1>\n");
-//
-				puts("<form action=\"http://debian7proj.cloudapp.net\">");
-//
-				puts("<div><input type=\"submit\" value=\"Continuar\"></div>");
-				puts("</form>");
-*
-			puts("Location: http://debian7proj.cloudapp.net\n\n");
-				
-				break;
-			}
-		}
-		else if(retval == SQLITE_DONE){//si se han revisado rodos los registros rompemos
-
-*
-			puts("<h1>Revise sus datos</h1>");
-			puts("<form action=\"http://debian7proj.cloudapp.net/login.php\">");
-			puts("<div><input type=\"submit\" value=\"Regresar\"></div>");
-			puts("</form>");
-			break;					//el ciclo while
-*
-
-			puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
-			break;					//el ciclo while
-}
-		else{
-			puts("Se han presentado errores");
-			break;
-		}
-*/
 	}
 
 	// Liberamos la memoria de la estructura usada para el query
@@ -186,10 +153,13 @@ char* obtenDatos(){
 
 	lenstr = getenv("CONTENT_LENGTH");
 
-	if(lenstr == NULL || sscanf(lenstr,"%ld",&len)!=1 || len > MAXLEN)
-		printf("<P>Error in invocation - wrong FORM probably.");
-	else
+	if(!(lenstr == NULL || sscanf(lenstr,"%ld",&len)!=1 || len > MAXLEN))
 		fgets(input, len+1, stdin);
 
   	return input;
+}
+
+void setPar(struct par* p,char* s){
+	p->llave=strtok(s,"=");
+	p->valor=strtok(NULL,"=");
 }
