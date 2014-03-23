@@ -3,7 +3,8 @@
 
 	//No se pudo importar el archivo cNodo.php
 	if (!$aux){
-		header('Location: http://debian7proj.cloudapp.net/');
+		#header('Location: http://debian7proj.cloudapp.net/');
+		header('Location: http://www.google.com');
 		exit;
 	}
 
