@@ -15,7 +15,6 @@
 			user.className = "";
 			pass.className = "";
 		}
-
 		function validateUser(user){
 			var expr=/^([a-z0-9]{5,10})$/;
 			var errorMessage = 'Usuario Incorrecto.';
@@ -26,7 +25,6 @@
         			user.className="invalido";
 				user.value="";
 				document.getElementById("message").innerHTML = errorMessage;
-		
     			}
 		}
               	function validatePass(pass){
