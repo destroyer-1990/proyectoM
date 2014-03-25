@@ -24,8 +24,10 @@ int main(void){
 	char *ap1,*ap2;
 	regex_t regex;
 
+	//puts("POST index.php HTTP/1.1");
 	puts("Content-Type:text/html;charset=utf-8");
-
+	//puts("Host: http://debian7proj.cloudapp.net");
+	//puts("Content-Type: application/x-www-form-urlencoded");
 	data = obtenDatos();
 
 	ap1=strtok(data,"&");
@@ -121,6 +123,7 @@ int contactaBase(char *usr, char* pwd){
 		case SQLITE_ROW:
 			// Verificamos si son datos de un usuario valido
 			if(!(strcmp(usr,sqlite3_column_text(stmt,0)) || strcmp(pwd,sqlite3_column_text(stmt,1))))
+				//printf("\nuser=%s\n",usr);
 				puts("Location: http://debian7proj.cloudapp.net\n\n");
 			break;
 		case SQLITE_DONE:
