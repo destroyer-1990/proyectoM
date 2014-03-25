@@ -18,15 +18,12 @@
 		</div>
         <div class="proy">
 		<ul id="sortable">
-			<li id="draggable1"><a href="articulo.php?idNode=1"><img src="seguridad2.jpg" alt="" width="250" height="200"><small>casilla numero 1</small></a></li>
-                        <li id="draggable2"><a href="articulo.php?idNode=2"><img src="seguridad4.jpg" alt="" width="250" height="200"><small>casilla numero 2</small></a></li>
-                        <li id="draggable3"><a href="articulo.php?idNode=3"><img src="seguridad5.jpg" alt="" width="250" height="200"><small>casilla numero 3</small></a></li>
-                        <li id="draggable4"><a href="articulo.php?idNode=4"><img src="seguridad2.jpg" alt="" width="250" height="200"><small>casilla numero 4</small></a></li>
-                        <li id="draggable5"><a href="articulo.php?idNode=5"><img src="seguridad4.jpg" alt="" width="250" height="200"><small>casilla numero 5</small></a></li>
-                        <li id="draggable6"><a href="articulo.php?idNode=6"><img src="seguridad5.jpg" alt="" width="250" height="200"><small>casilla numero 6</small></a></li>
-                        <li id="draggable7"><a href="articulo.php?idNode=7"><img src="seguridad2.jpg" alt="" width="250" height="200"><small>casilla numero 7</small></a></li>
-                        <li id="draggable8"><a href="articulo.php?idNode=8"><img src="seguridad4.jpg" alt="" width="250" height="200"><small>casilla numero 8</small></a></li>
-                        <li id="draggable9"><a href="articulo.php?idNode=9"><img src="seguridad5.jpg" alt="" width="250" height="200"><small>casilla numero 9</small></a></li>
+			<?php
+			/*$array =  array(1 => 1,2 => 2,3 => 4,4 => 7,5 => 8,6 => 3,7 => 5,8 => 6,9 => 9);*/
+			$array = array(1,2,3,4,5,6,7,8,9);
+			foreach($array as $num):?>
+			<li id="draggable<?=$num?>" ><a href="articulo.php?idNode=<?=$num?>"><img src="css/imagenes/pokebola.png" alt="" width="250" height="200"><small>casilla numero <?=$num?></small></a></li>
+			<?php endforeach; ?>
 		</ul>
 		</div>
 	</body>
