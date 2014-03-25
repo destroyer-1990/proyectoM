@@ -2,7 +2,7 @@
 <!--Octavio Dominguez Salgado-->
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<link rel="stylesheet" href="mystyle.css" type="text/css"/>	
+		<link rel="stylesheet" href="css/mystyle.css" type="text/css"/>	
 	        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
 	        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="scripts/posicion.php"></script>

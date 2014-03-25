@@ -6,7 +6,7 @@
 <!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 <head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="stylelogin.css" type="text/css">
+		<link rel="stylesheet" href="css/stylelogin.css" type="text/css">
 		<script>
 		init:function clear()
 		{
