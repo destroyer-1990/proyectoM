@@ -32,30 +32,32 @@ function sw_rest() {
 	  return json_encode($arr);
   }
 
+  $idNode=(int)$_POST["idNode"];
+  $comentario=$_POST["comentario"];
+  $index=$_POST["index"];
+
   $obj = new nodo();
   //variables post vacias
-  if(empty($_POST['index']) && empty($_POST['idNode']) && empty($_POST['comentario']) ){ 
+  if(empty($index) && empty($idNode) && empty($comentario) ){ 
     $obj->jsonEmpty();
   } 
 
   //información básica de todos los nodos
-  if (!empty($_POST["index"]) && empty($_POST["idNode"]) && empty($_POST["comentario"])) {
+  if (!empty($index) && empty($idNode) && empty($comentario) ) {
         $obj->getAll();
   }
 
   //Para obtener el nodo, o publicacioón
-  if(!empty($_POST["idNode"]) && empty($_POST["comentario"]) && empty($_POST["index"])){
-    $aux= (int)$_POST["idNode"];
-    if ($aux< 10 && $aux > 0)
-	   $obj->getNode($aux);
+  if(!empty($idNode && empty($comentario && empty($index) ){
+    if ($idNode< 10 && $idNode > 0)
+	   $obj->getNode($idNode);
     else
       $obj->jsonEmpty();   
   }
   
   //Agregar comentarios
-  if(!empty($_POST["comentario"]) && !empty($_POST["idNode"]) && empty($_POST["index"]) ) {
-	#require_once('comments.php'); 
-	$obj->addComment($_POST["comentario"],$_POST["idNode"]);
+  if(!empty($comentario) && !empty($idNode) && empty($index) ) {
+	  $obj->addComment($comentario,$idNode);
   }
 
 
