@@ -116,11 +116,9 @@ class nodo{
 	}
 	
 	public function addComment($Comentario,$idNode){
-	  /*$no =array ("<",">");
+	  $no =array ("<",">");
 	  $si =array ("&lt;","&gt; ");
-	  $ncom=str_replace($no,$si,$Comentario);*/
-
-	  $ncom=htmlentities($Comentario);
+	  $ncom=str_replace($no,$si,$Comentario);
 	
           $comment = (object) array(
             'nid' => $idNode,
