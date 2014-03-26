@@ -58,7 +58,11 @@ function sw_rest() {
   
   //Agregar comentarios
   if(!empty($comentario) && !empty($idNode) && empty($index) ) {
-	$obj->addComment($comentario,$idNode);
+	 $aux=(int)$idNode;
+    if ($aux< 10 && $aux > 0)
+		$obj->addComment($comentario,$aux);
+    else
+      $obj->jsonEmpty();   
   }
 
 
