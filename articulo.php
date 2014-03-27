@@ -1,4 +1,8 @@
-<?php	require_once('conDrupal/cNodo.php');?>
+<?php	require_once('conDrupal/cNodo.php');
+/*
+* Authors -Marcelo Barrera (PHP) -Octavio Domínguez Salgado (CSS - javascript)
+*/
+?>
 <html>
         <head>
                 <link rel="stylesheet" href="css/cstyle.css" type="text/css">

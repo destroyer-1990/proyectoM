@@ -1,5 +1,8 @@
 
 <?php
+/*
+* Author -Marcelo Barrera-
+*/
 class nodo{
 	public function jsonEmpty(){
 	   $arr =
