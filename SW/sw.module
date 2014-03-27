@@ -1,7 +1,4 @@
 <?php
-/*
-* Author -Marcelo Barrera-
-*/
 /**
  * Implementa hook_menu().
  */

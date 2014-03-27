@@ -1,7 +1,4 @@
 <?php
-/*
-* Author -Marcelo Barrera-
-*/
 class nodo {
 	public $fecha;
 	public $contenido;

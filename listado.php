@@ -1,8 +1,4 @@
-<?php require_once('conDrupal/cListado.php');
-/*
-* Authors -Marcelo Barrera (PHP) -Octavio Domínguez Salgado (CSS - javascript)
-*/
-?>
+<?php require_once('conDrupal/cListado.php');?>
 <html>
 	<head>
 		<link rel="stylesheet" href="css/cstyle.css" type="text/css">

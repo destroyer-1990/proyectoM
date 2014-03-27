@@ -1,7 +1,5 @@
 <?php
-/*
-* Author -Marcelo Barrera-
-*/
+
 $url = 'http://chelo.cloudapp.net/?q=sw/rest';
 
 //PAra obtener datos  (index)
