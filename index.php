@@ -1,5 +1,6 @@
 <html>
 <!--Octavio Dominguez Salgado-->
+<?php session_start(); $u;if (empty($_SESSION['user'])){$u=0;}else{$u=1;}?>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<link rel="stylesheet" href="css/mystyle.css" type="text/css"/>	
@@ -8,13 +9,16 @@
 		<script type="text/javascript" src="scripts/posicion.php"></script>
      	</head>
 	<body>        
+	<?php if($u) echo '<h2>Bienvenido: '.$_SESSION['user'].'</h2>'."\n";?>
 		<div id="cabecera" align= "right" >
 		<form action="login.php" method='POST'>
 		<input id="login" type="submit" value="login">
 		</form>
+	<?php if ($u){  ?>
 		<form action="login.php" method='POST'>
                 <input id="guardar" type="submit" value=posicion>
-                </form>
+		</form><?php } ?>
+	<?php if ($u){echo '<a href="cierre.php"><h2>Cierre de sesion</h2></a> '."\n";} ?>
 		</div>
         <div class="proy">
 		<ul id="sortable">
