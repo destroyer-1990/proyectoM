@@ -1,5 +1,7 @@
+# Flores Avila Oscar Ivan
+
 OUT=authMod.cgi
 IN=authMod.c
 
 cgi:
-	gcc $(IN) -o $(OUT) -lssl -lsqlite3
+	gcc $(IN) -O2 -o $(OUT) -lssl -lsqlite3

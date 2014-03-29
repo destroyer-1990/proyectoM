@@ -1,10 +1,15 @@
+/*
+*	Flores Avila Oscar Ivan
+*/
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<openssl/md5.h>
 #include<sqlite3.h>
-#include "defs.h"
+#include"defs.h"
 #include<regex.h>
+#include<fcntl.h>
 
 struct par{
 	char* llave;
@@ -12,10 +17,12 @@ struct par{
 };
 
 int contactaBase(char*,char*);
-char *str2md5(const char*, int);
+char *str2md5(const char*);
 int indexOf(char,char*);
 char* obtenDatos();
 void setPar(struct par* p,char* s);
+char* generaToken(void);
+char* escribeToken(char*);
 
 int main(void){
 	char *user,*pass,*pass_hash;
@@ -38,7 +45,7 @@ int main(void){
 
 	regcomp(&regex,"^[a-z0-9]+$",REG_EXTENDED);
 	if(regexec(&regex,p1.valor,0,NULL,0) || regexec(&regex,p2.valor,0,NULL,0)){
-		puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
+		puts(RECHAZADO);
 		return 0;
 	}
 
@@ -49,12 +56,12 @@ int main(void){
 		user=p2.valor;
 		pass=p1.valor;
 	}else{
-		puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
+		puts(RECHAZADO);
 		return 0;
 	}
 
 	// Generamos el hash de la contrasena
-	pass_hash=str2md5(pass,strlen(pass));
+	pass_hash=str2md5(pass);
 	//printf("%s,%s\n",user,pass);
 
 	// Verificamos los datos contra la base si los datos existen
@@ -65,7 +72,7 @@ int main(void){
 	return 0;
 }
 
-char *str2md5(const char *str, int length) {
+char *str2md5(const char *str) {
 	int n;
 	unsigned char digest[16];
 	char *md5str = (char*)malloc(33);
@@ -122,12 +129,21 @@ int contactaBase(char *usr, char* pwd){
 	switch(retval){
 		case SQLITE_ROW:
 			// Verificamos si son datos de un usuario valido
-			if(!(strcmp(usr,sqlite3_column_text(stmt,0)) || strcmp(pwd,sqlite3_column_text(stmt,1))))
+			if(!(strcmp(usr,sqlite3_column_text(stmt,0)) || strcmp(pwd,sqlite3_column_text(stmt,1)))){
 				//printf("\nuser=%s\n",usr);
-				puts("Location: http://debian7proj.cloudapp.net\n\n");
+				char* token = escribeToken(usr);
+				char* aux=(char*)malloc(strlen(usr)+strlen(token)+strlen(ACEPTADO)+14);
+				strcpy(aux,ACEPTADO);
+				strcat(aux,"?user=");
+				strcat(aux,usr);
+				strcat(aux,"&token=");
+				strcat(aux,token);
+				strcat(aux,"\n\n");
+				puts(aux);
+				}
 			break;
 		case SQLITE_DONE:
-			puts("Location: http://debian7proj.cloudapp.net/login.php\n\n");
+			puts(RECHAZADO);
 			break;
 	}
 
@@ -164,5 +180,41 @@ char* obtenDatos(){
 
 void setPar(struct par* p,char* s){
 	p->llave=strtok(s,"=");
-	p->valor=strtok(NULL,"=");
+	char *aux=strtok(NULL,"=");
+	if(aux != NULL)
+		p->valor=aux;
+	else
+		p->valor="";
+		
+	//p->valor=strtok(NULL,"=");
+}
+
+char* generaToken(void){
+	char *str = (char*)malloc(33);
+	int i;
+	int randomSrc = open("/dev/random", O_RDONLY);
+	unsigned long seed[2];
+
+	read(randomSrc , seed, 2 * sizeof(long) );
+	close(randomSrc);
+	sprintf(str,"%lu",seed);
+
+	for(i=0;i<13;i++)
+		str=str2md5(str);
+
+	return str;
+}
+
+char* escribeToken(char* nombre){
+	char* str = (char*)malloc(strlen(nombre)+strlen(ALMACEN)+1);
+	char* token;
+	strcpy(str,ALMACEN);
+	strcat(str,nombre);
+	
+	FILE *ap=fopen(str,"w");
+	token = generaToken();
+    fprintf(ap,"%s",token);
+    fclose(ap);
+
+	return token;
 }

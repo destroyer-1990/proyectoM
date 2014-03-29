@@ -4,7 +4,7 @@
           {
                 function __construct()
 	                    {
-	                           $this->open('bdfrontend.db');
+	                           $this->open('noeslabase/base2.db');
 		                                 }
 		                                }
 			    
@@ -69,16 +69,21 @@ $hashpass = md5($pass);
 
 
 $sql =<<<EOF
-      INSERT INTO usuarios (idusuario,login,password,orden)
-	  VALUES(13,'$user','$hashpass','ABCDEFGH');
+      INSERT INTO usuarios (login,password,orden)
+	  VALUES('$user','$hashpass','ABCDEFGHI');
 EOF;
 
 			 $ret = $db->exec($sql);
 			     if(!$ret){
 				           echo $db->lastErrorMsg();
+						   echo "Usuario ya existente";
 						                } else {
 										                   echo "Records created successfully\n";
-														                         }   
+//echo "Ahora logueate";
+
+echo '<a href="login.php">Ahora puedes iniciar sesion</a>';
+
+}   
 $lastid = $db->sqlite_num_rows();
  echo "valor despues $lastid";
 
