@@ -1,4 +1,8 @@
-<?php	require_once('conDrupal/cNodo.php');?>
+<?php	require_once('conDrupal/cNodo.php');
+/*
+**Authors Marcelo Barrera (PHP) Octavio Dominguez (CSS - javascript)
+*/
+?>
 <html>
         <head>
                 <link rel="stylesheet" href="css/cstyle.css" type="text/css">
@@ -9,7 +13,8 @@
         <body>
                 <div class="proy" >
 <?php
-
+    echo $obj->getSession();
+	echo '<br>';
 
 	echo '<p><span>Fecha de publicación: </span>';
 	echo $obj->getFecha();

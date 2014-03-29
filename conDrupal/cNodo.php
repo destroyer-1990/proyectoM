@@ -1,4 +1,9 @@
 <?php
+#
+# Author Marcelo Barrera
+#
+
+
 class nodo {
 	public $fecha;
 	public $contenido;
@@ -7,6 +12,12 @@ class nodo {
 	public $comentarios;
 	public $titulo;
 
+	public function getSession(){
+		 session_start(); 
+		 if(!empty($_SESSION['user'])) 
+		 	return "\n".'<a href="cierre.php"><h4>Cierre de sesion</h4></a>'."\n";
+		
+	}
 	public function getNodo($idNode){
 		$url = 'http://chelo.cloudapp.net/?q=sw/rest';
 
