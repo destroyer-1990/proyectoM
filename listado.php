@@ -12,6 +12,8 @@
 	</head>
 	<body>
 		<div class="proy" >
+		<a href="index.php">Inicio</a>
+		<br>
 
 <?php
 echo $obj['sesion'];

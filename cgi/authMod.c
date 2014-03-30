@@ -11,6 +11,7 @@
 #include<regex.h>
 #include<fcntl.h>
 
+// Estructura para almacenar los datos de un usuario
 struct par{
 	char* llave;
 	char* valor;
@@ -31,24 +32,26 @@ int main(void){
 	char *ap1,*ap2;
 	regex_t regex;
 
-	//puts("POST index.php HTTP/1.1");
+	// Obtenemos los datos enviados por POST
 	puts("Content-Type:text/html;charset=utf-8");
-	//puts("Host: http://debian7proj.cloudapp.net");
-	//puts("Content-Type: application/x-www-form-urlencoded");
 	data = obtenDatos();
 
 	ap1=strtok(data,"&");
 	ap2=strtok(NULL,"&");
 
+	// Almacenamos los datos del usuarios en un par ordenado
 	setPar(&p1,ap1);
 	setPar(&p2,ap2);
 
+	// Verificamos si los datos del usuario cumplen con las caracteristicas definidas
 	regcomp(&regex,"^[a-z0-9]+$",REG_EXTENDED);
 	if(regexec(&regex,p1.valor,0,NULL,0) || regexec(&regex,p2.valor,0,NULL,0)){
 		puts(RECHAZADO);
 		return 0;
 	}
 
+	// Revisamos el orden en que los datos fueron enviados, asi como el nombre de
+	// los campos
 	if(!(strcmp(p1.llave,"user") && strcmp(p2.llave,"pass"))){
 		user=p1.valor;
 		pass=p2.valor;
@@ -56,13 +59,13 @@ int main(void){
 		user=p2.valor;
 		pass=p1.valor;
 	}else{
+		// Si no cumple las condiciones es rechazada la peticion
 		puts(RECHAZADO);
 		return 0;
 	}
 
 	// Generamos el hash de la contrasena
 	pass_hash=str2md5(pass);
-	//printf("%s,%s\n",user,pass);
 
 	// Verificamos los datos contra la base si los datos existen
 	// regresamos el valor de 1
@@ -84,14 +87,11 @@ char *str2md5(const char *str) {
 	for(n = 0; n < 16; n++)
 	         sprintf(&md5str[n*2], "%02x", (unsigned int)digest[n]);
 
-	//printf("%s\n",md5str);
-
 	return md5str;
 }
 
 int contactaBase(char *usr, char* pwd){
 	int retval,flag=0;
-	//char query[122];
 	char query[132];
 
 	// Estructura para manipular las consultas
@@ -107,8 +107,6 @@ int contactaBase(char *usr, char* pwd){
 		puts("No se pudo conectar con la base");
 		return flag;
 	}
-
-	//puts("Conexion exitosa");
 
 	strcpy(query,"SELECT login,password FROM usuarios WHERE login='");
 	strcat(query,usr);
@@ -130,7 +128,6 @@ int contactaBase(char *usr, char* pwd){
 		case SQLITE_ROW:
 			// Verificamos si son datos de un usuario valido
 			if(!(strcmp(usr,sqlite3_column_text(stmt,0)) || strcmp(pwd,sqlite3_column_text(stmt,1)))){
-				//printf("\nuser=%s\n",usr);
 				char* token = escribeToken(usr);
 				char* aux=(char*)malloc(strlen(usr)+strlen(token)+strlen(ACEPTADO)+14);
 				strcpy(aux,ACEPTADO);
@@ -179,14 +176,13 @@ char* obtenDatos(){
 }
 
 void setPar(struct par* p,char* s){
+	// Almacenamos los datos del usuario en la estructura recibida
 	p->llave=strtok(s,"=");
 	char *aux=strtok(NULL,"=");
 	if(aux != NULL)
 		p->valor=aux;
 	else
 		p->valor="";
-		
-	//p->valor=strtok(NULL,"=");
 }
 
 char* generaToken(void){
@@ -211,10 +207,13 @@ char* escribeToken(char* nombre){
 	strcpy(str,ALMACEN);
 	strcat(str,nombre);
 	
+	// Generamos el archivo que contiene el token de sesion de un usuarios
 	FILE *ap=fopen(str,"w");
+	// Generamos el token
 	token = generaToken();
     fprintf(ap,"%s",token);
     fclose(ap);
 
+	// Regresamoe el valor del token recien generado
 	return token;
 }

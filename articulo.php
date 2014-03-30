@@ -12,6 +12,11 @@
         </head>
         <body>
                 <div class="proy" >
+				<a href="index.php">Inicio</a>
+				<br>
+				<a href="listado.php">Listado de articulos</a>
+				<br>
+
 <?php
     echo $obj->getSession();
 	echo '<br>';
