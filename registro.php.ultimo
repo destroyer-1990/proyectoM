@@ -1,0 +1,32 @@
+<html>
+<!--Octavio Dominguez Salgado CSS y estructura del regitro |||| Diego Valverde Bases de datos-->
+<?php session_start(); $u;if (!empty($_SESSION['user'])){
+echo '<a href="cierre.php"><h4>Cierre de sesion</h4></a> '."\n";
+}else{
+echo '';
+}?>
+<head>
+                <link rel="stylesheet" href="css/styleadm.css" type="text/css">           
+</head>
+<body>
+<div class="proy">
+<!--print "Aqui va el registro";
+$caminodb = $_SERVER["DOCUMENT_ROOT"] . "/proyectotonejo/bdfrontend.db";
+$db = sqlite_open($caminodb) or die("No puedo abrir la base de datos ");-->
+
+<form name="mi_registro" action="sanitizacionR.php" method="post" >
+      Nombre de usuario:<input type="text" name="usuario" size="20" maxlength="60" />
+	        <br />
+			      Contrase&ntilde;a:<input type="password" name="password" size="10" maxlength="8" />
+				        <br />
+						      Confirme contrase&ntilde;a:<input type="password" name="confirmar_password" size="10" maxlength="8" />
+							     <br />
+								 
+								 <input type="submit" value="Registrar" />
+
+								
+  </form>
+ 
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?php
+session_start();
+
+class MyDB extends SQLite3
+   {
+       function __construct(){
+	       $this->open('base2.db');
+		       }
+			      }
+				     $db = new MyDB();
+					    if(!$db){
+						   echo $db->lastErrorMsg();
+						      } else
+							     {echo "Opened database successfully\n";}
+								 
+$usuario = $_SESSION['user'];
+$orden = $_SESSION['orden'];  
+$sql =<<<EOF
+
+update usuarios set orden = $orden where login='$usuario';
+	  
+EOF;
+		  
+		    
+			  $ret = $db->query($sql);
+			                  while($row = $ret->fetchArray(SQLITE3_ASSOC) ){                       echo "orden = ". $row['orden'] . "\n";
+							    
+								  $orden2 = $row['orden'];
+								    print "Variable extraida:$orden2\n";
+									  
+									    }
+
+?>
+<html>
+<head>
+<title>Problema</title>
+</head>
+<body>
+<?php
+echo "Nombre de usuario recuperado de la variable de sesión:".$_SESSION['user'];
+//echo "<br><br>";
+echo "La clave recuperada de la variable de sesión:".$_SESSION['orden'];
+
+$db ->close();
+?>
+</body>
+</html>

@@ -1,0 +1,102 @@
+/*Octavio Domínguez Salgado*/
+<?php
+		session_start();
+        	$usuario = $_SESSION["user"];
+
+////////////////////////
+class MyDB extends SQLite3
+   {
+       function __construct(){
+	       $this->open('base23.db');
+		       }
+			      }
+				     $db = new MyDB();
+					    if(!$db){
+						    //$db->lastErrorMsg();
+
+						      } else { 
+							  
+		
+							// echo "Opened database successfully\n";
+							  }
+
+///////////////////////////
+
+
+
+		if(!empty($_SESSION["user"])){
+		?>
+		function getUsuario(){
+                        debugger;
+                                login.style.display ='none';
+                                //guardar.style.display = 'in-line';
+                                //Mensaje("Bienvenido ");
+                                $( "#sortable" ).sortable({
+                                stop: function(event, ui)
+                                {
+                                debugger;
+                                var posFin = ui.item.index();
+                                var nombre = ui.item.prop('id');
+                                var posIni = organization.filter(function(object){return (object.nombre == nombre)})[0].pos-1;
+                                organization.sort(function(a,b){return (a.pos - b.pos)});//aqui tenia a.pos-b.pos
+                                if(posFin >posIni)
+                                        for(var i=posIni;i<=posFin;i++) //aqui tenia -1 +1
+                                                organization[i].pos -= 1;
+                                else
+                                        for(var i=posFin;i<=posIni;i++)
+                                                organization[i].pos += 1;
+                                organization.filter(function(object){return (object.nombre == nombre)})[0].pos = posFin+1;
+                             	//una llave
+                                var posicion = ""
+                                for (var i=0; i<9; i++)
+								{
+                                         posicion = posicion + organization.sort(function(a,b){return (a.pos - b.pos)})[i].id;
+
+document.cookie = 'posicionphp='+posicion+'; expires=Thu,2 Aug 2021 20:47:11 UTC;path=/';
+
+                                }//findefor
+                                //alert(posicion);
+                                }//fin de stop function
+                                });
+						<?php              
+						$_SESSION['orden'] = $_COOKIE["posicionphp"];
+
+
+$usuario1 = $_SESSION['user'];                            
+  $sql =<<<EOF
+update usuarios set orden = 987654321 where login='$usuario1';
+EOF;
+            ?>
+
+
+
+
+				
+								
+                                $( "#sortable" ).disableSelection();
+                }//fin de get usuario
+                var tiempo = 1000;
+                function Mensaje (mensaje){
+                        setTimeout(MuestraMensaje(mensaje),tiempo);
+                }
+                function MuestraMensaje(msj){
+                        top.alert(msj);
+                }
+                var organization = new Object();
+                organization = [{id:1, nombre:"draggable1", pos:1},{id:2, nombre:"draggable2", pos:2},{id:3, nombre:"draggable3",pos:3},{id:4, nombre:"draggable4",pos:4},{id:5, nombre:"draggable5",pos:5},{id:6, nombre:"draggable6",pos:6},{id:7, nombre:"draggable7",pos:7},{id:8, nombre:"draggable8",pos:8},{id:9, nombre:"draggable9",pos:9}]
+                $(function() {
+                        getUsuario();
+                });<?php }
+		else
+		{ ?>
+		function mortal(){
+			login.style.display = 'in-line';		
+                                //guardar.style.display = 'none';
+		}
+		$(function() {
+                        mortal();
+                });
+<?php		} 
+?>
+
+ 

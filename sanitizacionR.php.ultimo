@@ -1,0 +1,102 @@
+<?php
+
+ class MyDB extends SQLite3
+          {
+                function __construct()
+	                    {
+	                           $this->open('scripts/base2.db');
+		                                 }
+		                                }
+			    
+			     $db = new MyDB();
+				     if(!$db){
+				            echo $db->lastErrorMsg();
+				               } else {
+				                      echo "Conexion con la base Correcta\n";
+					                    }
+
+
+$user=$_POST["usuario"];
+$pass=$_POST["password"];
+$conpass=$_POST["confirmar_password"];
+//echo "$user.$pass";
+if($pass == $conpass){
+if(preg_match("/^[a-z0-9]+$/",$user)){
+        echo "<html><body><h1>Usuario Correcto</h1></body></html>";
+        if(preg_match("/^[a-z0-9]+$/",$pass)){
+                echo "<html><body><h1>Password Correcto</h1></body></html>";
+$alarmatodoestabien=1;
+$hashpass = md5($pass);
+			$sql =<<<EOF
+			        INSERT INTO usuarios (login,password,orden)
+					        VALUES('$user','$hashpass','123456789');
+EOF;
+
+        }
+        else {
+                echo "<html><body><h1>Error Password</h1></body></html>";}
+}else{
+
+echo "<html><body><h1>Error Usuario</h1></body></html>";}
+}
+else{
+	header("Location: registro.php");
+}
+//$anterior = $nuevo + 1;
+//$nuevo=$anterior+1;
+//$results = $db->query('select max(idusuario) from usuarios');
+//print $results;
+//while($row = $results->fetchArray()){
+//var_dump($row);
+//$rows = $consulta->numRows();
+
+//echo "Number of rows:echo Number of rows: $rows";
+//}
+
+//$lastid = $db->lastInsertRowid();
+//echo "valor $lastid";
+/*$consulta = sqlite_query($db, "SELECT * FROM usuarios");
+$rows = sqlite_num_rows($consulta);
+print "Numero de registros: $rows";
+*/
+
+//$consulta = $db->query("SELECT * FROM usuarios");
+//$rows = $consulta->numRows();
+
+//echo "Number of rows:echo Number of rows: $rows";
+
+
+//$indice = 1;
+
+
+//$hashpass = md5($pass);
+
+ //$lastid = $db->lastInsertRowid();
+   // echo "valor antes $lastid";
+
+
+
+//$sql =<<<EOF
+  //    INSERT INTO usuarios (login,password,orden)
+	//  VALUES('$user','$hashpass','123456789');
+//EOF;
+
+			 $ret = $db->exec($sql);
+			     if(!$ret or $alarmatodoestabien!=1){
+				           echo $db->lastErrorMsg();
+						   echo "Usuario ya existente o algun otro error";
+						   echo '<a href="registro.php">Volver a Registro</a>';
+						                } else {
+										                   echo "Datos correctos\n";
+//echo "Ahora logueate";
+
+echo '<a href="login.php">Ahora puedes iniciar sesion</a>';
+
+}   
+//$lastid = $db->sqlite_num_rows() //echo "valor despues $lastid";
+
+		$db->close();
+
+
+?>
+
