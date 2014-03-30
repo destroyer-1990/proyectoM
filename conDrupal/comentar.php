@@ -1,4 +1,6 @@
 <?php
+#Author Marcelo Barrera
+
 	$aux = require_once("cNodo.php");
 
 	//No se pudo importar el archivo cNodo.php

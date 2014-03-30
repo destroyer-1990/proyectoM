@@ -1,4 +1,8 @@
-<?php require_once('conDrupal/cListado.php');?>
+<?php require_once('conDrupal/cListado.php');
+/*
+**Authors Marcelo Barrera (PHP) Octavio Dominguez (CSS, javascript)
+*/
+?>
 <html>
 	<head>
 		<link rel="stylesheet" href="css/cstyle.css" type="text/css">
@@ -10,8 +14,8 @@
 		<div class="proy" >
 
 <?php
-
-
+echo $obj['sesion'];
+echo "<br>\n<br>";
 foreach($obj['articulos'] as $articulo){
 	echo '<p><a href="articulo.php?idNode='.$articulo['idNode'].'">'.$articulo['fecha'].' - '.$articulo['titulo'].'</a></p>';
 	
